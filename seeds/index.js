@@ -11,7 +11,7 @@ db.once("open", () => {
   console.log("DataBase Connected");
 });
 
-const sample = (array) => array[Math.floor(Math.random() * array.lenght)];
+const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
   await Campground.deleteMany({});
@@ -22,7 +22,7 @@ const seedDB = async () => {
     const random1000 = Math.floor(Math.random() * 1000);
     const camp = new Campground({
       location: `${cities[random1000].city},${cities[random1000].state}`,
-      title: `${sample(descriptors)} ${sample(places)}`,
+      title: `${sample(descriptors)} ${sample(places)}`
     });
     await camp.save();
   }
