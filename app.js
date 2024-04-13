@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Campground = require("./models/campground");
 const path = require("path");
+const ejsMate =require("ejs-mate");
 const methodOverride = require("method-override");
 
 mongoose.connect("mongodb://localhost:27017/yelp-camp"); //Database connection made using this
@@ -16,7 +17,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-
+app.engine('ejs',ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
