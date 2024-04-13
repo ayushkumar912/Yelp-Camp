@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit CampGround</title>
-  </head>
-  <body>
+<% layout('/layouts/boilerplate') %> <% //using ejsMate %>
     <h1>Edit CampGround</h1>
     <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST">
       <div>
@@ -30,5 +23,3 @@
       <button>Update CampGround</button>
     </form>
     <a href="/campgrounds/<%= campground._id%>">Back to CampGround</a>
-  </body>
-</html>
