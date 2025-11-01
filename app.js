@@ -3,20 +3,16 @@ const mongoose = require("mongoose");
 const Campground = require("./models/campground");
 const catchAsync = require("./utils/catchAsync.js");
 const path = require("path");
-const {campgroundSchema} = require('./schemas.js'); 
+const { campgroundSchema,reviewSchema } = require("./schemas.js");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const ExpressError = require("./utils/ExpressError.js");
 const { error } = require("console");
 const Joi = require("joi");
 const { title } = require("process");
+const Review = require('./models/review');
 
-mongoose.connect("mongodb://localhost:27017/yelp-camp"),
-  {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  }; //Database connection made using this
+mongoose.connect("mongodb://localhost:27017/yelp-camp");
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:")); //verify that weather database is connected successfully or not
@@ -33,10 +29,9 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 const validateCampground = (req, res, next) => {
-  
   const { error } = campgroundSchema.validate(req.body);
   if (error) {
-    const msg = error.details.map((el) => el.message).join(',');
+    const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
   } else {
     next();
@@ -44,9 +39,20 @@ const validateCampground = (req, res, next) => {
   // console.log(result);
 };
 
+const validateReview=(req,res,next)=> {
+  console.log(req.body);
+ const {error}=reviewSchema.validate(req.body);
+   if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
 app.get("/", (req, res) => {
   res.render("home");
 });
+
 
 app.get(
   "/campgrounds",
@@ -101,6 +107,19 @@ app.put(
     res.redirect(`/campgrounds/${campground._id}`);
   })
 );
+
+
+app.post(
+ "/campgrounds/:id/reviews",
+validateReview,catchAsync(async (req, res) => {
+ const campground = await Campground.findById(req.params.id);
+ const review = new Review(req.body.review);
+ campground.reviews.push(review);
+  await review.save();
+  await campground.save();
+  res.redirect(`/campgrounds/${campground._id}`);  })
+);
+
 
 app.delete(
   "/campgrounds/:id",

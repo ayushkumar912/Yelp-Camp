@@ -24,7 +24,7 @@ const seedDB = async () => {
     const camp = new Campground({
       title: `${sample(descriptors)} ${sample(places)}`,
       location: `${cities[random1000].city}, ${cities[random1000].state}`,
-      image: 'https://source.unsplash.com/collection/483251',
+      image: 'https://unsplash.com/collections/XRWoial1tf4/camps',
       description: "In a fast-paced world dominated by technology and constant connectivity, the timeless allure of camping stands as a sanctuary of simplicity and serenity. Camping provides a unique opportunity to reconnect with nature, immersing oneself in the beauty of pristine landscapes and the soothing sounds of the wilderness. Surrounded by towering trees, expansive skies, and the gentle embrace of the elements, campers find solace in the simplicity of nature's embrace. Moreover, camping offers a welcome respite from the digital noise that pervades modern life. By unplugging from screens and devices, campers are able to rediscover the joy of genuine human connection, engaging in meaningful conversations and shared experiences under the open sky.",
       price
     });    
