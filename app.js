@@ -49,7 +49,7 @@ const validateReview=(req,res,next)=> {
     next();
   }
 };
-app.get("/", (req, res) => {
+app.get("/", (req, res ) => {
   res.render("home");
 });
 
